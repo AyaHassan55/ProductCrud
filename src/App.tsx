@@ -10,7 +10,7 @@ function App() {
     
       
         
-        <div className='border-2 m-4 border-red-500 p-4'>
+        <div className=''>
           <ProductCard />
           <ProductCard />
           <ProductCard />
