@@ -1,6 +1,6 @@
 interface IProps {
 
-urlImage:string;
+urlImage?:string;
 altText:string; 
 className?:string;
 
