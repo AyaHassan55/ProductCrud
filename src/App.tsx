@@ -1,23 +1,25 @@
 
 
-import './App.css'
+
+import ProductCard from './components/ProductCard'
 
 function App() {
  
 
   return (
-    <>
-      <section id="center">
+    
+      
         
-        <div>
-          <h1 className='text-3xl underline'>Get started</h1>
+        <div className='border-2 m-4 border-red-500 p-4'>
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          {/* <ProductCard /> */}
           
         </div>
-        
-      </section>
-
       
-    </>
   )
 }
 
