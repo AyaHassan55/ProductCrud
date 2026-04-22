@@ -1,5 +1,6 @@
 // import type { ReactNode } from "react"
 import type { IProduct } from "../interfaces"
+import { textSlicer } from "../utils/functions";
 import Image from "./Image"
 import Button from "./ui/Button"
 
@@ -9,20 +10,17 @@ product:IProduct;
 }
 
 const ProductCard = ({product}: IProps) => {
-    const {title, description, price, imgURL, colors, category} = product;
-    const colorClasses = colors.map((c)=>{
-        return `w-5 h-5 rounded-full bg-${c}-500 cursor-pointer`
-    })
+    const {title, description, price, imgURL, colors, category} = product
     return (
         <div className="border m-5 p-3 rounded-md w-80  ">
             <Image className="rounded-md mb-2" urlImage={imgURL} altText={title} />
             <h1 className="text-xl " >{title}</h1>
-            <p className="text-gray-400">{description}</p>
+            <p className="text-gray-400">{textSlicer(description)}</p>
             <div className="flex gap-2 my-1.5">
-
-                {colorClasses.map((cls, index) => (
-                    <div key={index} className={cls}></div>
-                ))}
+                
+                <div className="w-5 h-5 rounded-full bg-red-500 cursor-pointer "></div>
+                <div className="w-5 h-5 rounded-full bg-blue-500 cursor-pointer"></div>
+                <div className="w-5 h-5 rounded-full bg-green-500 cursor-pointer"></div>
             </div>
             <div className="flex items-center justify-between">
                 <span>${price}</span>
