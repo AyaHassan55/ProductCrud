@@ -10,3 +10,11 @@ export interface IProduct {
     imgURL: string;
   }
 }
+export interface IFormInput {
+  id: string;
+  name: string;
+  label: string;
+  type: string;
+  placeholder: string;
+  required: boolean;
+}

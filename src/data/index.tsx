@@ -1,8 +1,8 @@
 
 import { v4 as uuid } from 'uuid';
 
-import type{ IProduct } from '../interfaces';
-const productList: IProduct[]=[
+import type{ IFormInput, IProduct } from '../interfaces';
+export const productList: IProduct[]=[
     {
         id:uuid(),
         title:"Practical Granite Gloves",
@@ -56,4 +56,44 @@ const productList: IProduct[]=[
        }
     },
 ]
-export default productList;
+export const formInputList:IFormInput[]=[
+    {
+        id:'title',
+        name:"title",
+        label:"Product Title",
+        type:"text",
+        placeholder:"Enter product title",
+        required:true
+    },{
+        id:'description',
+        name:"description",
+        label:"Product Description",
+        type:"text",
+        placeholder:"Enter product description",
+        required:true
+    },
+    {
+        id:'image',
+        name:"imageURL",
+        label:"Product Image URL",
+        type:"text",
+        placeholder:"Enter product image URL",
+        required:true
+    },  
+    {
+        id:'price',
+        name:"price",
+        label:"Product Price",
+        type:"number",
+        placeholder:"Enter product price",
+        required:true
+    },{
+        id:'category',
+        name:"category",
+        label:"Product Category",
+        type:"text",
+        placeholder:"Enter product category",
+        required:true
+    }
+    
+]
