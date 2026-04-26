@@ -4,11 +4,11 @@ export interface IProduct {
   description: string;
   price: string | number;
   imgURL?: string;
-  colors: string[];
-  category: {
-    name: string;
-    imgURL: string;
-  }
+  // colors: string[];
+  // category: {
+  //   name: string;
+  //   imgURL: string;
+  // }
 }
 export interface IFormInput {
   id: string;
