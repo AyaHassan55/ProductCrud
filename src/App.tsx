@@ -6,15 +6,13 @@ import Button from './components/ui/Button'
 import ProductCard from './components/ProductCard'
 import Modal from './components/ui/Modal'
 
-import { useState, type ChangeEvent } from 'react'
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { formInputList, productList } from './data'
 import Input from './components/ui/input'
 import type { IProduct } from './interfaces'
 
 const App = () => {
-  // ------------------State --------------------------
-  const [isOpen, setIsOpen] = useState(false)
-  const [product, setProduct] = useState<IProduct>({
+  const defaultProductObj={
   title:"",
   description:"",
   price:"",
@@ -25,20 +23,36 @@ const App = () => {
     name:"",
     imgURL:"" 
   }
-  })
+  }
+  // ------------------State --------------------------
+  const [isOpen, setIsOpen] = useState(false)
+  const [product, setProduct] = useState<IProduct>(
+    defaultProductObj
+    
+)
 
    // ------------------Handler --------------------------
   const open = () => setIsOpen(true)
-  const close = () => setIsOpen(false)
+  const closeModal = () => setIsOpen(false)
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target
     setProduct({...product, [name]: value})
   }
-  
-  // ** Render a list of ProductCard components
+ const submitHandler = (event: FormEvent<HTMLFormElement>):void => {
+  event.preventDefault()
+  console.log("Form submitted with data: ", product)
+  closeModal()
+ }
+ const onCancel = () => {
+  console.log("Cancel clicked");
+  setProduct(defaultProductObj)
+  closeModal()
+ }
+   
+  // ** ------------------Render a list of ProductCard components----------------------------------
   const renderProductList = productList.map((product) => <ProductCard key={product.id} product={product} />)
   const renderFormInputList = formInputList.map((input) =>
-    <div className='flex flex-col gap-1'>
+    <div className='flex flex-col gap-1' key={input.id}>
       <label
         htmlFor={input.id}
         className='text-sm font-medium text-gray-700'>{input.label}</label>
@@ -61,12 +75,12 @@ const App = () => {
 
         {renderProductList}
       </div>
-      <Modal isOpen={isOpen} closeModal={close} title="My Modal Title">
-        <form className='space-y-2'>
+      <Modal isOpen={isOpen} closeModal={closeModal} title="My Modal Title">
+        <form className='space-y-2' onSubmit={submitHandler}>
           {renderFormInputList}
           <div className='flex justify-between items-center space-x-2 mt-4'>
             <Button className="bg-purple-500" width="w-full" onClick={open}>Submit</Button>
-            <Button className="bg-red-500" width="w-full" onClick={open}>Cancel</Button>
+            <Button className="bg-red-500" width="w-full" onClick={onCancel}>Cancel</Button>
           </div>
         </form>
 
