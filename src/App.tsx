@@ -44,7 +44,7 @@ const App = () => {
         className='text-sm font-medium text-gray-700'>{input.label}</label>
       <Input 
       // line below is wrong nowww!!!!!!!
-          key={input.id} id={input.id} type={input.type} name={input.name} value={""}
+          key={input.id} id={input.id} type={input.type} name={input.name} value={product[input.name]}
           placeholder={input.placeholder} required={input.required}
           onChange={onChangeHandler}
       />

@@ -74,7 +74,7 @@ export const formInputList:IFormInput[]=[
     },
     {
         id:'image',
-        name:"imageURL",
+        name:"imgURL",
         label:"Product Image URL",
         type:"text",
         placeholder:"Enter product image URL",
@@ -87,13 +87,15 @@ export const formInputList:IFormInput[]=[
         type:"number",
         placeholder:"Enter product price",
         required:true
-    },{
-        id:'category',
-        name:"category",
-        label:"Product Category",
-        type:"text",
-        placeholder:"Enter product category",
-        required:true
     }
+    // ,
+    // {
+    //     id:'category',
+    //     name:"category",
+    //     label:"Product Category",
+    //     type:"text",
+    //     placeholder:"Enter product category",
+    //     required:true
+    // }
     
 ]
