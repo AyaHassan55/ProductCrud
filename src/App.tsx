@@ -45,11 +45,14 @@ const App = () => {
         {renderProductList}
       </div>
       <Modal isOpen={isOpen} closeModal={close} title="My Modal Title">
-        {renderFormInputList}
-         <div className='flex justify-between items-center gap-4 mt-4'>
+        <div className='space-y-2'>
+{renderFormInputList}
+         <div className='flex justify-between items-center space-x-2 mt-4'>
             <Button className="bg-purple-500" width="w-full" onClick={open}>Submit</Button>
             <Button className="bg-red-500" width="w-full" onClick={open}>Cancel</Button>
           </div>
+        </div>
+        
       </Modal>
         
     

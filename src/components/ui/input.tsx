@@ -12,7 +12,7 @@ const Input = ({...rest}: IProps) => {
             
             <input 
              required={false}
-              className='mt-3 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-purple-500' {...rest} />
+              className='mt-3 border border-gray-100 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-purple-500' {...rest} />
        
     )
 }
