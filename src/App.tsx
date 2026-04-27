@@ -10,6 +10,7 @@ import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { formInputList, productList } from './data'
 import Input from './components/ui/input'
 import type { IProduct } from './interfaces'
+import { validateProduct } from './validation'
 
 const App = () => {
   const defaultProductObj={
@@ -40,9 +41,26 @@ const App = () => {
   }
  const submitHandler = (event: FormEvent<HTMLFormElement>):void => {
   event.preventDefault()
-  console.log("Form submitted with data: ", product)
-  closeModal()
- }
+  const errors = validateProduct({
+    title: product.title,
+    description: product.description,
+    price: product.price.toString(),
+    imageURL: product.imgURL || ""
+  });
+  console.log("error messages",errors)
+  // check if any propertty has a value of "" in the errors object, if yes then return from the function and do not submit the form
+  const hasError=Object.values(errors).some(value=> value=== "")&&
+          Object.values(errors).every(value=> value === "")
+     console.log(hasError)     
+     if(!hasError){
+      console.log("Form submitted successfully with data:", product);
+      // setProduct(defaultProductObj)
+      closeModal()
+     }else{
+      console.log("Form has errors. Please fix them before submitting.");
+     }
+  
+ };
  const onCancel = () => {
   console.log("Cancel clicked");
   setProduct(defaultProductObj)

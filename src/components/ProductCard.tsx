@@ -10,7 +10,7 @@ product:IProduct;
 }
 
 const ProductCard = ({product}: IProps) => {
-    const {title, description, price, imgURL, colors, category} = product
+    const {title, description, price, imgURL} = product
     return (
         <div className="max-w-sm md:max-w-lg mx-auto md:mx-0  m-5 p-2  md:p-4 rounded-md w-80 flex flex-col ">
             <Image className="rounded-md mb-2 h-52 w-full lg:object-cover" urlImage={imgURL} altText={title} />
@@ -24,7 +24,7 @@ const ProductCard = ({product}: IProps) => {
             </div>
             <div className="flex items-center justify-between">
                 <span>${price}</span>
-                <Image className="w-10 h-10 rounded-full object-center" urlImage={category.imgURL} altText={category.name} />
+                {/* <Image className="w-10 h-10 rounded-full object-center" urlImage={category.imgURL} altText={category.name} /> */}
             </div>
             <div className="flex items-center justify-between space-x-2 mt-3">
                 <Button className="bg-purple-500" width="w-full" onClick={() => {console.log("Edit clicked")}}>Edit</Button>
