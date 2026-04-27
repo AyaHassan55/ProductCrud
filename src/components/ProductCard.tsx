@@ -10,10 +10,10 @@ product:IProduct;
 }
 
 const ProductCard = ({product}: IProps) => {
-    const {title, description, price, imgURL} = product
+    const {title, description, price, imageURL} = product
     return (
         <div className="max-w-sm md:max-w-lg mx-auto md:mx-0  m-5 p-2  md:p-4 rounded-md w-80 flex flex-col ">
-            <Image className="rounded-md mb-2 h-52 w-full lg:object-cover" urlImage={imgURL} altText={title} />
+            <Image className="rounded-md mb-2 h-52 w-full lg:object-cover" urlImage={imageURL} altText={title} />
             <h1 className="text-xl " >{title}</h1>
             <p className="text-gray-400">{textSlicer(description)}</p>
             <div className="flex gap-2 my-1.5">

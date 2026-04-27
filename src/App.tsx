@@ -11,62 +11,65 @@ import { formInputList, productList } from './data'
 import Input from './components/ui/input'
 import type { IProduct } from './interfaces'
 import { validateProduct } from './validation'
+import ErrorMessage from './components/ErrorMessage'
 
 const App = () => {
-  const defaultProductObj={
-  title:"",
-  description:"",
-  price:"",
-  imgURL:"",
-  colors:[],
- 
-  category:{
-    name:"",
-    imgURL:"" 
-  }
+  const defaultProductObj = {
+    title: "",
+    description: "",
+    price: "",
+    imageURL: "",
+    colors:[],
+
+    category:{
+      name:"",
+      imageURL:"" 
+    }
   }
   // ------------------State --------------------------
   const [isOpen, setIsOpen] = useState(false)
-  const [product, setProduct] = useState<IProduct>(
-    defaultProductObj
-    
-)
-
-   // ------------------Handler --------------------------
+  const [product, setProduct] = useState<IProduct>(defaultProductObj)
+  const [error, setError] = useState(
+    { title: "",
+    description: "",
+    price: "",
+    imageURL: "",})
+console.log("errors====",error)
+  // ------------------Handler --------------------------
   const open = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = event.target
-    setProduct({...product, [name]: value})
+    const { name, value } = event.target
+    setProduct({ ...product, [name]: value })
   }
- const submitHandler = (event: FormEvent<HTMLFormElement>):void => {
-  event.preventDefault()
-  const errors = validateProduct({
-    title: product.title,
-    description: product.description,
-    price: product.price.toString(),
-    imageURL: product.imgURL || ""
-  });
-  console.log("error messages",errors)
-  // check if any propertty has a value of "" in the errors object, if yes then return from the function and do not submit the form
-  const hasError=Object.values(errors).some(value=> value=== "")&&
-          Object.values(errors).every(value=> value === "")
-     console.log(hasError)     
-     if(!hasError){
-      console.log("Form submitted successfully with data:", product);
-      // setProduct(defaultProductObj)
+  const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    // const { title, description, price, imageURL } = product
+    const errors = validateProduct({
+      title: product.title,
+      description: product.description,
+      price: product.price,
+      imageURL: (product.imageURL as string),
+    });
+    // console.log("error messages", errors)
+    //--------------------------- check if any propertty has a value of "" in the errors object, if yes then return from the function and do not submit the form
+    const hasError = Object.values(errors).some(value => value === "") && Object.values(errors).every(value => value === "")
+    console.log(hasError)
+    if (!hasError) {
+      setError(errors)
+
       closeModal()
-     }else{
+    } else {
       console.log("Form has errors. Please fix them before submitting.");
-     }
-  
- };
- const onCancel = () => {
-  console.log("Cancel clicked");
-  setProduct(defaultProductObj)
-  closeModal()
- }
-   
+    }
+
+  };
+  const onCancel = () => {
+    console.log("Cancel clicked");
+    setProduct(defaultProductObj)
+    closeModal()
+  }
+
   // ** ------------------Render a list of ProductCard components----------------------------------
   const renderProductList = productList.map((product) => <ProductCard key={product.id} product={product} />)
   const renderFormInputList = formInputList.map((input) =>
@@ -74,12 +77,13 @@ const App = () => {
       <label
         htmlFor={input.id}
         className='text-sm font-medium text-gray-700'>{input.label}</label>
-      <Input 
-      // line below is wrong nowww!!!!!!!
-          key={input.id} id={input.id} type={input.type} name={input.name} value={product[input.name]}
-          placeholder={input.placeholder} required={input.required}
-          onChange={onChangeHandler}
+      <Input
+        // line below is wrong nowww!!!!!!!
+        key={input.id} id={input.id} type={input.type} name={input.name} value={product[input.name]}
+        placeholder={input.placeholder} required={input.required}
+        onChange={onChangeHandler}
       />
+      <ErrorMessage msg={error[input.name]} />
     </div>
   )
 

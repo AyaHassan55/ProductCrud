@@ -2,8 +2,8 @@ export interface IProduct {
   id?: string | undefined;
   title: string;
   description: string;
-  price: string | number;
-  imgURL?: string;
+  price: string ;
+  imageURL?: string;
   // colors: string[];
   // category: {
   //   name: string;
@@ -12,7 +12,7 @@ export interface IProduct {
 }
 export interface IFormInput {
   id: string;
-  name: "title"|"description"|"price"|"imgURL";
+  name: "title"|"description"|"price"|"imageURL";
   label: string;
   type: string;
   placeholder: string;
