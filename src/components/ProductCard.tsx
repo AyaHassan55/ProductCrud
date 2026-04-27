@@ -18,9 +18,9 @@ const ProductCard = ({product}: IProps) => {
             <p className="text-gray-400">{textSlicer(description)}</p>
             <div className="flex gap-2 my-1.5">
                 
-                <div className="w-5 h-5 rounded-full bg-red-500 cursor-pointer "></div>
-                <div className="w-5 h-5 rounded-full bg-blue-500 cursor-pointer"></div>
-                <div className="w-5 h-5 rounded-full bg-green-500 cursor-pointer"></div>
+                <span className="w-5 h-5 rounded-full bg-red-500 cursor-pointer "></span>
+                <span className="w-5 h-5 rounded-full bg-blue-500 cursor-pointer"></span>
+                <span className="w-5 h-5 rounded-full bg-green-500 cursor-pointer"></span>
             </div>
             <div className="flex items-center justify-between">
                 <span>${price}</span>

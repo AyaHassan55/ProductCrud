@@ -7,11 +7,12 @@ import ProductCard from './components/ProductCard'
 import Modal from './components/ui/Modal'
 
 import { useState, type ChangeEvent, type FormEvent } from 'react'
-import { formInputList, productList } from './data'
+import { colors, formInputList, productList } from './data'
 import Input from './components/ui/input'
 import type { IProduct } from './interfaces'
 import { validateProduct } from './validation'
 import ErrorMessage from './components/ErrorMessage'
+import CircleColor from './components/ui/CircleColor'
 
 const App = () => {
   const defaultProductObj = {
@@ -19,28 +20,31 @@ const App = () => {
     description: "",
     price: "",
     imageURL: "",
-    colors:[],
+    colors: [],
 
-    category:{
-      name:"",
-      imageURL:"" 
+    category: {
+      name: "",
+      imageURL: ""
     }
   }
   // ------------------State --------------------------
   const [isOpen, setIsOpen] = useState(false)
   const [product, setProduct] = useState<IProduct>(defaultProductObj)
   const [error, setError] = useState(
-    { title: "",
-    description: "",
-    price: "",
-    imageURL: "",})
-console.log("errors====",error)
+    {
+      title: "",
+      description: "",
+      price: "",
+      imageURL: "",
+    })
+  console.log("errors====", error)
   // ------------------Handler --------------------------
   const open = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setProduct({ ...product, [name]: value })
+    setError({ ...error, [name]: "" })
   }
   const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
@@ -58,7 +62,7 @@ console.log("errors====",error)
     if (!hasError) {
       setError(errors)
 
-      closeModal()
+
     } else {
       console.log("Form has errors. Please fix them before submitting.");
     }
@@ -78,7 +82,7 @@ console.log("errors====",error)
         htmlFor={input.id}
         className='text-sm font-medium text-gray-700'>{input.label}</label>
       <Input
-        // line below is wrong nowww!!!!!!!
+
         key={input.id} id={input.id} type={input.type} name={input.name} value={product[input.name]}
         placeholder={input.placeholder} required={input.required}
         onChange={onChangeHandler}
@@ -86,6 +90,7 @@ console.log("errors====",error)
       <ErrorMessage msg={error[input.name]} />
     </div>
   )
+  const renderProductColors = colors.map(color => <CircleColor key={color}  color={color}/>)
 
   return (
 
@@ -100,6 +105,10 @@ console.log("errors====",error)
       <Modal isOpen={isOpen} closeModal={closeModal} title="My Modal Title">
         <form className='space-y-2' onSubmit={submitHandler}>
           {renderFormInputList}
+          <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
+            {renderProductColors}
+          </div>
+
           <div className='flex justify-between items-center space-x-2 mt-4'>
             <Button className="bg-purple-500" width="w-full" onClick={open}>Submit</Button>
             <Button className="bg-red-500" width="w-full" onClick={onCancel}>Cancel</Button>

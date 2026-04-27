@@ -4,7 +4,7 @@ export interface IProduct {
   description: string;
   price: string ;
   imageURL?: string;
-  // colors: string[];
+  colors: string[];
   // category: {
   //   name: string;
   //   imgURL: string;
