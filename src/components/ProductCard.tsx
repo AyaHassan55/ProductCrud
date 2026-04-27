@@ -1,8 +1,10 @@
 // import type { ReactNode } from "react"
+
 import type { IProduct } from "../interfaces"
 import { textSlicer } from "../utils/functions";
 import Image from "./Image"
 import Button from "./ui/Button"
+import CircleColor from "./ui/CircleColor";
 
 interface IProps {
 product:IProduct;
@@ -10,18 +12,22 @@ product:IProduct;
 }
 
 const ProductCard = ({product}: IProps) => {
-    const {title, description, price, imageURL} = product
+    const {title, description, price, imageURL,colors} = product
+   
+
+     const renderProductColors = colors.map(color => <CircleColor key={color} color={color}
+      
+    
+      />)
     return (
         <div className="max-w-sm md:max-w-lg mx-auto md:mx-0  m-5 p-2  md:p-4 rounded-md w-80 flex flex-col ">
             <Image className="rounded-md mb-2 h-52 w-full lg:object-cover" urlImage={imageURL} altText={title} />
             <h1 className="text-xl " >{title}</h1>
             <p className="text-gray-400">{textSlicer(description)}</p>
-            <div className="flex gap-2 my-1.5">
-                
-                <span className="w-5 h-5 rounded-full bg-red-500 cursor-pointer "></span>
-                <span className="w-5 h-5 rounded-full bg-blue-500 cursor-pointer"></span>
-                <span className="w-5 h-5 rounded-full bg-green-500 cursor-pointer"></span>
-            </div>
+            <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
+            {renderProductColors}
+          </div>
+
             <div className="flex items-center justify-between">
                 <span>${price}</span>
                 {/* <Image className="w-10 h-10 rounded-full object-center" urlImage={category.imgURL} altText={category.name} /> */}

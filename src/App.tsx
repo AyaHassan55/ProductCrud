@@ -13,7 +13,7 @@ import type { IProduct } from './interfaces'
 import { validateProduct } from './validation'
 import ErrorMessage from './components/ErrorMessage'
 import CircleColor from './components/ui/CircleColor'
-
+import { v4 as uuid } from 'uuid';
 const App = () => {
   const defaultProductObj = {
     title: "",
@@ -29,6 +29,7 @@ const App = () => {
   }
   // ------------------State --------------------------
   const [isOpen, setIsOpen] = useState(false)
+  const [products, setProducts] = useState<IProduct[]>(productList)
   const [product, setProduct] = useState<IProduct>(defaultProductObj)
   const [error, setError] = useState(
     {
@@ -37,7 +38,8 @@ const App = () => {
       price: "",
       imageURL: "",
     })
-  console.log("errors====", error)
+  const [tempColor, setTempColor] = useState<string[]>([]);
+  console.log(tempColor);
   // ------------------Handler --------------------------
   const open = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
@@ -55,7 +57,7 @@ const App = () => {
       price: product.price,
       imageURL: (product.imageURL as string),
     });
-    // console.log("error messages", errors)
+  
     //--------------------------- check if any propertty has a value of "" in the errors object, if yes then return from the function and do not submit the form
     const hasError = Object.values(errors).some(value => value === "") && Object.values(errors).every(value => value === "")
     console.log(hasError)
@@ -63,9 +65,11 @@ const App = () => {
       setError(errors)
 
 
-    } else {
-      console.log("Form has errors. Please fix them before submitting.");
-    }
+    } 
+    setProducts(prev=> [{...product,id:uuid(),colors:tempColor},...prev])
+    setProduct(defaultProductObj)
+    setTempColor([])
+    closeModal()  
 
   };
   const onCancel = () => {
@@ -75,7 +79,7 @@ const App = () => {
   }
 
   // ** ------------------Render a list of ProductCard components----------------------------------
-  const renderProductList = productList.map((product) => <ProductCard key={product.id} product={product} />)
+  const renderProductList = products.map((product) => <ProductCard key={product.id} product={product} />)
   const renderFormInputList = formInputList.map((input) =>
     <div className='flex flex-col gap-1' key={input.id}>
       <label
@@ -90,7 +94,19 @@ const App = () => {
       <ErrorMessage msg={error[input.name]} />
     </div>
   )
-  const renderProductColors = colors.map(color => <CircleColor key={color}  color={color}/>)
+  const renderProductColors = colors.map(color => <CircleColor key={color} color={color}
+    onClick={() => {
+      if (tempColor.includes(color)) {
+        // if color in list and click another one > remove it
+        setTempColor(prev=>prev.filter(item=> item !== color))
+        return;
+      }
+
+      setTempColor((prev) => [...prev, color])
+    }}
+
+  />)
+
 
   return (
 
@@ -105,9 +121,16 @@ const App = () => {
       <Modal isOpen={isOpen} closeModal={closeModal} title="My Modal Title">
         <form className='space-y-2' onSubmit={submitHandler}>
           {renderFormInputList}
+
+          <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
+            {
+              tempColor.map(color => <span key={color} className='text-white rounded-xl p-1.5 mr-1 mb-1 text-sm' style={{ backgroundColor: color }}>{color}</span>)
+            }
+          </div>
           <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
             {renderProductColors}
           </div>
+
 
           <div className='flex justify-between items-center space-x-2 mt-4'>
             <Button className="bg-purple-500" width="w-full" onClick={open}>Submit</Button>

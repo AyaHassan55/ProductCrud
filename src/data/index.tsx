@@ -112,10 +112,6 @@ export const colors:string[]=[
       "black",
       "white",
       "brown",
-      "brown",
-      "brown",
-      "brown",
-      "brown",
-      "brown",
+      
 
 ]
