@@ -35,6 +35,7 @@ const App = () => {
       description: "",
       price: "",
       imageURL: "",
+      colors: "",
     })
   const [tempColor, setTempColor] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(categories[0])
@@ -54,13 +55,15 @@ const App = () => {
       description: product.description,
       price: product.price,
       imageURL: (product.imageURL as string),
+      colors: tempColor,
     });
 
-    //--------------------------- check if any propertty has a value of "" in the errors object, if yes then return from the function and do not submit the form
+    //-----check if any propertty has a value of "" in the errors object, if yes then return from the function and do not submit the form
     const hasError = Object.values(errors).some(value => value === "") && Object.values(errors).every(value => value === "")
     console.log(hasError)
     if (!hasError) {
       setError(errors)
+      return;
 
 
     }
@@ -99,8 +102,9 @@ const App = () => {
         setTempColor(prev => prev.filter(item => item !== color))
         return;
       }
-
+      
       setTempColor((prev) => [...prev, color])
+        setError(prev => ({ ...prev, colors: "" }))
     }}
 
   />)
@@ -129,12 +133,12 @@ const App = () => {
           <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
             {renderProductColors}
           </div>
-         
+         <ErrorMessage msg={error.colors} />
 
 
           <div className='flex justify-between items-center space-x-2 mt-4'>
-            <Button className="bg-purple-500" width="w-full" onClick={open}>Submit</Button>
-            <Button className="bg-red-500" width="w-full" onClick={onCancel}>Cancel</Button>
+            <Button  className="bg-purple-500 cursor-pointer" width="w-full" onClick={open}>Submit</Button>
+            <Button className="bg-red-500 cursor-pointer" width="w-full" onClick={onCancel}>Cancel</Button>
           </div>
         </form>
 

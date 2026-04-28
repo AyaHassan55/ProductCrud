@@ -9,12 +9,15 @@ export const validateProduct = (product:
         description: string;
         imageURL: string; price:
         string;
+        colors: string[];
     }) => {
-    const errors: { title: string; description: string; price: string; imageURL: string } = {
+    const errors: { title: string; description: string; price: string; imageURL: string; colors: string;  } = {
         title: "",
         description: "",
         price: "",
         imageURL: "",
+
+        colors: "",
 
     };
     const validUrl = /^(ftp|http|https):\/\/[^ "]+$/.test(product.imageURL);
@@ -30,6 +33,10 @@ export const validateProduct = (product:
     if (!product.imageURL.trim() || !validUrl) {
         errors.imageURL = "Image URL is required and must be a valid URL.";
     }
+    if (product.colors.length === 0) {
+        errors.colors = "At least one color is required.";
+    }
+   
     return errors;
 
 }
