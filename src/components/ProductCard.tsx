@@ -12,7 +12,7 @@ product:IProduct;
 }
 
 const ProductCard = ({product}: IProps) => {
-    const {title, description, price, imageURL,colors} = product
+    const {title, description, price, imageURL,colors,category} = product
    
 
      const renderProductColors = colors.map(color => <CircleColor key={color} color={color}
@@ -30,7 +30,7 @@ const ProductCard = ({product}: IProps) => {
 
             <div className="flex items-center justify-between">
                 <span>${price}</span>
-                {/* <Image className="w-10 h-10 rounded-full object-center" urlImage={category.imgURL} altText={category.name} /> */}
+                <Image className="w-10 h-10 rounded-full object-center" urlImage={category.imageURL} altText={category.name} />
             </div>
             <div className="flex items-center justify-between space-x-2 mt-3">
                 <Button className="bg-purple-500" width="w-full" onClick={() => {console.log("Edit clicked")}}>Edit</Button>

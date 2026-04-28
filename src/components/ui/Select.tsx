@@ -3,9 +3,13 @@ import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@h
 import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { categories } from '../../data'
-
-const Select = () => {
-  const [selected, setSelected] = useState(categories[0])
+import type { ICategory } from '../../interfaces'
+interface IProps {
+    selected:ICategory;
+    setSelected:(category:ICategory)=>void
+}
+const Select = ({ selected, setSelected }:IProps) => {
+//   const [selected, setSelected] = useState(categories[0])
 
   return (
     <Listbox value={selected} onChange={setSelected}>

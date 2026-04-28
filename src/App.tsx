@@ -4,7 +4,7 @@ import ProductCard from './components/ProductCard'
 import Modal from './components/ui/Modal'
 
 import { useState, type ChangeEvent, type FormEvent } from 'react'
-import { colors, formInputList, productList } from './data'
+import { categories, colors, formInputList, productList } from './data'
 import Input from './components/ui/input'
 import type { IProduct } from './interfaces'
 import { validateProduct } from './validation'
@@ -37,7 +37,7 @@ const App = () => {
       imageURL: "",
     })
   const [tempColor, setTempColor] = useState<string[]>([]);
-  console.log(tempColor);
+  const [selectedCategory, setSelectedCategory] = useState(categories[0])
   // ------------------Handler --------------------------
   const open = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
@@ -64,7 +64,7 @@ const App = () => {
 
 
     }
-    setProducts(prev => [{ ...product, id: uuid(), colors: tempColor }, ...prev])
+    setProducts(prev => [{ ...product, id: uuid(), colors: tempColor, category: selectedCategory }, ...prev])
     setProduct(defaultProductObj)
     setTempColor([])
     closeModal()
@@ -119,7 +119,7 @@ const App = () => {
       <Modal isOpen={isOpen} closeModal={closeModal} title="My Modal Title">
         <form className='space-y-2' onSubmit={submitHandler}>
           {renderFormInputList}
-           <Select />
+           <Select selected={selectedCategory} setSelected={setSelectedCategory} />
 
           <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
             {
