@@ -1,7 +1,4 @@
 
-
-
-
 import Button from './components/ui/Button'
 import ProductCard from './components/ProductCard'
 import Modal from './components/ui/Modal'
@@ -14,6 +11,7 @@ import { validateProduct } from './validation'
 import ErrorMessage from './components/ErrorMessage'
 import CircleColor from './components/ui/CircleColor'
 import { v4 as uuid } from 'uuid';
+import Select from './components/ui/Select'
 const App = () => {
   const defaultProductObj = {
     title: "",
@@ -57,7 +55,7 @@ const App = () => {
       price: product.price,
       imageURL: (product.imageURL as string),
     });
-  
+
     //--------------------------- check if any propertty has a value of "" in the errors object, if yes then return from the function and do not submit the form
     const hasError = Object.values(errors).some(value => value === "") && Object.values(errors).every(value => value === "")
     console.log(hasError)
@@ -65,11 +63,11 @@ const App = () => {
       setError(errors)
 
 
-    } 
-    setProducts(prev=> [{...product,id:uuid(),colors:tempColor},...prev])
+    }
+    setProducts(prev => [{ ...product, id: uuid(), colors: tempColor }, ...prev])
     setProduct(defaultProductObj)
     setTempColor([])
-    closeModal()  
+    closeModal()
 
   };
   const onCancel = () => {
@@ -98,7 +96,7 @@ const App = () => {
     onClick={() => {
       if (tempColor.includes(color)) {
         // if color in list and click another one > remove it
-        setTempColor(prev=>prev.filter(item=> item !== color))
+        setTempColor(prev => prev.filter(item => item !== color))
         return;
       }
 
@@ -121,6 +119,7 @@ const App = () => {
       <Modal isOpen={isOpen} closeModal={closeModal} title="My Modal Title">
         <form className='space-y-2' onSubmit={submitHandler}>
           {renderFormInputList}
+           <Select />
 
           <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
             {
@@ -130,6 +129,7 @@ const App = () => {
           <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
             {renderProductColors}
           </div>
+         
 
 
           <div className='flex justify-between items-center space-x-2 mt-4'>

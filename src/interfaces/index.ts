@@ -5,10 +5,10 @@ export interface IProduct {
   price: string ;
   imageURL?: string;
   colors: string[];
-  // category: {
-  //   name: string;
-  //   imgURL: string;
-  // }
+  category: {
+    name: string;
+    imageURL: string;
+  }
 }
 export interface IFormInput {
   id: string;
@@ -17,4 +17,9 @@ export interface IFormInput {
   type: string;
   placeholder: string;
   required: boolean;
+}
+export interface ICategory {
+  id: string;
+  name: string;
+  imageURL: string;
 }
