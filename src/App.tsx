@@ -29,6 +29,9 @@ const App = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [products, setProducts] = useState<IProduct[]>(productList)
   const [product, setProduct] = useState<IProduct>(defaultProductObj)
+  const [productToEdit, setProductToEdit] = useState<IProduct>(defaultProductObj)
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false)
+  console.log(productToEdit)
   const [error, setError] = useState(
     {
       title: "",
@@ -42,6 +45,9 @@ const App = () => {
   // ------------------Handler --------------------------
   const open = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
+
+  const openEditModal = () => setIsOpenEditModal(true)
+  const closeEditModal = () => setIsOpenEditModal(false)
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setProduct({ ...product, [name]: value })
@@ -80,7 +86,7 @@ const App = () => {
   }
 
   // ** ------------------Render a list of ProductCard components----------------------------------
-  const renderProductList = products.map((product) => <ProductCard key={product.id} product={product} />)
+  const renderProductList = products.map((product) => <ProductCard key={product.id} product={product} setProductToEdit={setProductToEdit} openEditModal={openEditModal} />)
   const renderFormInputList = formInputList.map((input) =>
     <div className='flex flex-col gap-1' key={input.id}>
       <label
@@ -120,7 +126,33 @@ const App = () => {
 
         {renderProductList}
       </div>
+      {/* Add Product Modal */}
       <Modal isOpen={isOpen} closeModal={closeModal} title="My Modal Title">
+        <form className='space-y-2' onSubmit={submitHandler}>
+          {renderFormInputList}
+           <Select selected={selectedCategory} setSelected={setSelectedCategory} />
+
+          <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
+            {
+              tempColor.map(color => <span key={color} className='text-white rounded-xl p-1.5 mr-1 mb-1 text-sm' style={{ backgroundColor: color }}>{color}</span>)
+            }
+          </div>
+          <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
+            {renderProductColors}
+          </div>
+         <ErrorMessage msg={error.colors} />
+
+
+          <div className='flex justify-between items-center space-x-2 mt-4'>
+            <Button  className="bg-purple-500 cursor-pointer" width="w-full" onClick={open}>Submit</Button>
+            <Button className="bg-red-500 cursor-pointer" width="w-full" onClick={onCancel}>Cancel</Button>
+          </div>
+        </form>
+
+      </Modal>
+
+      {/* Edit product Modal */}
+       <Modal isOpen={isOpenEditModal} closeModal={closeEditModal} title="Edit this product">
         <form className='space-y-2' onSubmit={submitHandler}>
           {renderFormInputList}
            <Select selected={selectedCategory} setSelected={setSelectedCategory} />

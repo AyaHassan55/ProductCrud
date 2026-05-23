@@ -8,17 +8,23 @@ import CircleColor from "./ui/CircleColor";
 
 interface IProps {
 product:IProduct;
+setProductToEdit?:(product:IProduct)=>void;
+openEditModal:()=>void;
 
 }
 
-const ProductCard = ({product}: IProps) => {
+const ProductCard = ({product, setProductToEdit, openEditModal}: IProps) => {
     const {title, description, price, imageURL,colors,category} = product
    
+// -------------------RENDER COLORS----------------------
+    const renderProductColors = colors.map(color => <CircleColor key={color} color={color}
+  />)
+  // -------------Handler for edit ----------------
 
-     const renderProductColors = colors.map(color => <CircleColor key={color} color={color}
-      
-    
-      />)
+    const handleEdit = () => {
+        openEditModal()
+        setProductToEdit && setProductToEdit(product)
+    }
     return (
         <div className="max-w-sm md:max-w-lg mx-auto md:mx-0  m-5 p-2  md:p-4 rounded-md w-80 flex flex-col ">
             <Image className="rounded-md mb-2 h-52 w-full lg:object-cover" urlImage={imageURL} altText={title} />
@@ -33,8 +39,8 @@ const ProductCard = ({product}: IProps) => {
                 <Image className="w-10 h-10 rounded-full object-center" urlImage={category.imageURL} altText={category.name} />
             </div>
             <div className="flex items-center justify-between space-x-2 mt-3">
-                <Button className="bg-purple-500" width="w-full" onClick={() => {console.log("Edit clicked")}}>Edit</Button>
-                <Button className="bg-red-500 " width="w-full" onClick={() => {console.log("Delete clicked")}}>Delete</Button>
+                <Button className="bg-purple-500 cursor-pointer" width="w-full" onClick={() => handleEdit()}>Edit</Button>
+                <Button className="bg-red-500  cursor-pointer" width="w-full" onClick={() => {console.log("Delete clicked")}}>Delete</Button>
                 
                 
             </div>
