@@ -107,7 +107,7 @@ const App = () => {
 
     }
     const updatedProducts = [...products]
-    updatedProducts[productToEditIndex]=productToEdit
+    updatedProducts[productToEditIndex]={...productToEdit,colors: tempColor.concat(productToEdit.colors)}
     setProducts(updatedProducts)
     setProductToEdit(defaultProductObj)
     setTempColor([])
@@ -148,9 +148,14 @@ const App = () => {
         setTempColor(prev => prev.filter(item => item !== color))
         return;
       }
+       if (productToEdit.colors.includes(color)) {
+        // if color in list and click another one > remove it
+        setTempColor(prev => prev.filter(item => item !== color))
+        return;
+      }
       
       setTempColor((prev) => [...prev, color])
-        setError(prev => ({ ...prev, colors: "" }))
+        // setError(prev => ({ ...prev, colors: "" }))
     }}
 
   />)
@@ -218,11 +223,12 @@ const App = () => {
 
           <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
             {
-              // tempColor.map(color => <span key={color} className='text-white rounded-xl p-1.5 mr-1 mb-1 text-sm' style={{ backgroundColor: color }}>{color}</span>)
+             tempColor.concat(productToEdit.colors).map(color => <span key={color} 
+                className='text-white rounded-xl p-1.5 mr-1 mb-1 text-sm' style={{ backgroundColor: color }}>{color}</span>)
             }
           </div>
           <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
-            {/* {renderProductColors} */}
+            {renderProductColors}
           </div>
          <ErrorMessage msg={error.colors} />
 
