@@ -10,10 +10,12 @@ interface IProps {
 product:IProduct;
 setProductToEdit?:(product:IProduct)=>void;
 openEditModal:()=>void;
+index:number;
+setProductToEditIndex:(index:number)=>void;
 
 }
 
-const ProductCard = ({product, setProductToEdit, openEditModal}: IProps) => {
+const ProductCard = ({product, setProductToEdit, openEditModal, index, setProductToEditIndex}: IProps) => {
     const {title, description, price, imageURL,colors,category} = product
    
 // -------------------RENDER COLORS----------------------
@@ -24,6 +26,7 @@ const ProductCard = ({product, setProductToEdit, openEditModal}: IProps) => {
     const handleEdit = () => {
         openEditModal()
         setProductToEdit && setProductToEdit(product)
+        setProductToEditIndex(index)
     }
     return (
         <div className="max-w-sm md:max-w-lg mx-auto md:mx-0  m-5 p-2  md:p-4 rounded-md w-80 flex flex-col ">

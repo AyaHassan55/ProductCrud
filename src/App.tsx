@@ -31,8 +31,10 @@ const App = () => {
   const [products, setProducts] = useState<IProduct[]>(productList)
   const [product, setProduct] = useState<IProduct>(defaultProductObj)
   const [productToEdit, setProductToEdit] = useState<IProduct>(defaultProductObj)
+  const [productToEditIndex, setProductToEditIndex] = useState<number>(0)
   const [isOpenEditModal, setIsOpenEditModal] = useState(false)
   console.log(productToEdit)
+  console.log(productToEditIndex)
   const [error, setError] = useState(
     {
       title: "",
@@ -104,7 +106,9 @@ const App = () => {
 
 
     }
-    setProducts(prev => [{ ...product, id: uuid(), colors: tempColor, category: selectedCategory }, ...prev])
+    const updatedProducts = [...products]
+    updatedProducts[productToEditIndex]=productToEdit
+    setProducts(updatedProducts)
     setProductToEdit(defaultProductObj)
     setTempColor([])
     closeEditModal()
@@ -117,7 +121,11 @@ const App = () => {
   }
 
   // ** ------------------Render a list of ProductCard components----------------------------------
-  const renderProductList = products.map((product) => <ProductCard key={product.id} product={product} setProductToEdit={setProductToEdit} openEditModal={openEditModal} />)
+  const renderProductList = products.map((product, index) => 
+    
+      <ProductCard key={product.id} product={product} setProductToEdit={setProductToEdit} openEditModal={openEditModal} index={index} setProductToEditIndex={setProductToEditIndex}/>
+
+    )
   const renderFormInputList = formInputList.map((input) =>
     <div className='flex flex-col gap-1' key={input.id}>
       <label
