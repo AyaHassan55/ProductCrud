@@ -12,6 +12,7 @@ import ErrorMessage from './components/ErrorMessage'
 import CircleColor from './components/ui/CircleColor'
 import { v4 as uuid } from 'uuid';
 import Select from './components/ui/Select'
+import type { TProductNames } from './types'
 const App = () => {
   const defaultProductObj = {
     title: "",
@@ -53,15 +54,19 @@ const App = () => {
     setProduct({ ...product, [name]: value })
     setError({ ...error, [name]: "" })
   }
+  const onChangeEditHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    setProductToEdit({ ...productToEdit, [name]: value })
+  }
   const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    // const { title, description, price, imageURL } = product
+    const { title, description, price, imageURL } = product
     const errors = validateProduct({
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      imageURL: (product.imageURL as string),
-      colors: tempColor,
+      title,
+      description,
+      price,
+      imageURL,
+      colors
     });
 
     //-----check if any propertty has a value of "" in the errors object, if yes then return from the function and do not submit the form
@@ -79,10 +84,36 @@ const App = () => {
     closeModal()
 
   };
+    const submitEditHandler = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    const { title, description, price, imageURL } = productToEdit
+    const errors = validateProduct({
+      title,
+      description,
+      price,
+      imageURL,
+      colors
+    });
+
+    //-----check if any propertty has a value of "" in the errors object, if yes then return from the function and do not submit the form
+    const hasError = Object.values(errors).some(value => value === "") && Object.values(errors).every(value => value === "")
+    console.log(hasError)
+    if (!hasError) {
+      setError(errors)
+      return;
+
+
+    }
+    setProducts(prev => [{ ...product, id: uuid(), colors: tempColor, category: selectedCategory }, ...prev])
+    setProductToEdit(defaultProductObj)
+    setTempColor([])
+    closeEditModal()
+
+  };
   const onCancel = () => {
     console.log("Cancel clicked");
-    setProduct(defaultProductObj)
-    closeModal()
+    setProductToEdit(defaultProductObj)
+    closeEditModal()
   }
 
   // ** ------------------Render a list of ProductCard components----------------------------------
@@ -101,6 +132,7 @@ const App = () => {
       <ErrorMessage msg={error[input.name]} />
     </div>
   )
+
   const renderProductColors = colors.map(color => <CircleColor key={color} color={color}
     onClick={() => {
       if (tempColor.includes(color)) {
@@ -114,8 +146,23 @@ const App = () => {
     }}
 
   />)
+ 
+ const renderProductEditWithErrMsg=(id:string, label:string, name: TProductNames)=>{
+  return(
+    <div className='flex flex-col gap-1'>
+      <label
+        htmlFor={id}
+        className='text-sm font-medium text-gray-700'>{label}</label>
+      <Input
 
-
+         id={id} type={id} name={name} value={productToEdit[name]}
+        // placeholder={input.placeholder} required={input.required}
+        onChange={onChangeEditHandler}
+      />
+      <ErrorMessage msg={error[name]} />
+    </div>
+  )
+ }
   return (
 
 
@@ -151,25 +198,29 @@ const App = () => {
 
       </Modal>
 
-      {/* Edit product Modal */}
+      {/*--------- Edit product Modal -------------*/}
        <Modal isOpen={isOpenEditModal} closeModal={closeEditModal} title="Edit this product">
-        <form className='space-y-2' onSubmit={submitHandler}>
-          {renderFormInputList}
+        <form className='space-y-2' onSubmit={submitEditHandler}>
+          {renderProductEditWithErrMsg("title", "Product Title", "title")}
+          {renderProductEditWithErrMsg("description", "Product Description", "description")}
+          {renderProductEditWithErrMsg("price", "Product Price", "price")}
+          {renderProductEditWithErrMsg("imageURL", "Product Image URL", "imageURL")}
+
            <Select selected={selectedCategory} setSelected={setSelectedCategory} />
 
           <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
             {
-              tempColor.map(color => <span key={color} className='text-white rounded-xl p-1.5 mr-1 mb-1 text-sm' style={{ backgroundColor: color }}>{color}</span>)
+              // tempColor.map(color => <span key={color} className='text-white rounded-xl p-1.5 mr-1 mb-1 text-sm' style={{ backgroundColor: color }}>{color}</span>)
             }
           </div>
           <div className="flex gap-2 my-1.5 flex-wrap space-x-1">
-            {renderProductColors}
+            {/* {renderProductColors} */}
           </div>
          <ErrorMessage msg={error.colors} />
 
 
           <div className='flex justify-between items-center space-x-2 mt-4'>
-            <Button  className="bg-purple-500 cursor-pointer" width="w-full" onClick={open}>Submit</Button>
+            <Button  className="bg-purple-500 cursor-pointer" width="w-full" onClick={open}>Edit</Button>
             <Button className="bg-red-500 cursor-pointer" width="w-full" onClick={onCancel}>Cancel</Button>
           </div>
         </form>
